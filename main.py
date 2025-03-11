@@ -1,9 +1,4 @@
-import json 
-import os
-import time
-import subprocess
-import sys
-import re
+import json, os, time, subprocess, sys, re
 
 par = "False"
 if len(sys.argv) > 1:
@@ -79,10 +74,6 @@ def save_to_file(filename, content):
     with open(filename, "w", encoding="utf-8") as file:
         file.write(content)
 
-"""
-Meu programa até está, colocando as configurações, como lendo o json e reformatando as configurações. Está executando o comando e escrevendo em um arquivo
-"""
-
 data = {
     "up": [],
     "down": [],
@@ -144,9 +135,6 @@ def read_file(opetion, filename):
         except Exception as e:
             print(f"Erro: {e}")
 
-
-
-    
     elif opetion == "up":
 
         try:
@@ -168,57 +156,44 @@ def read_file(opetion, filename):
         
     return data
 
-"""
-Até aqui ele está, lendo os arquivos que conterá os dados e armazenando em um dic
-"""
-
 def set_data():
-    files = {
-        "down": ["down-1.txt", "down-2.txt", "down-3.txt"],
-        "up": ["up-1.txt", "up-2.txt", "up-3.txt"],
-        "netsh": ["netsh-1.txt","netsh-2.txt","netsh-3.txt" ]
-    }
-
+    data["up"].clear()
+    data["down"].clear()
+    data["range"]["sinal"].clear()
+    data["range"]["TR"].clear()
+    data["range"]["TT"].clear()
+    
     for category, file_list in files.items():
         for file_name in file_list:
             read_file(category, file_name)
 
 def format_table(data):
-    set_data()
-
-    header = "+---------+----+------+----------------------------------------------------+"
-    title = "| Rodadas | Up    |  Down |                     Data                        |"
+    print(data)
+    header = "+---------+---------+---------+--------------------------+"
+    title = "| Rodadas |   Up    |  Down   |       Dados            |"
+    separator = header
     
-    num_rodadas = len(data["up"])
-    
+    num_rodadas = len(data["up"]) if len(data["up"]) > len(data["down"]) else len(data["down"])
     rows = []
+
     for i in range(num_rodadas):
-        up = data["up"][i]
-        down = data["down"][i]
-        sinal = data["range"]["sinal"][i]
-        tr = data["range"]["TR"][i]
-        tt = data["range"]["TT"][i]
+        up = data["up"][i] if i < len(data["up"]) else "N/A"
+        down = data["down"][i] if i < len(data["down"]) else "N/A"
+        sinal = data["range"]["sinal"][i] if i < len(data["range"]["sinal"]) else "N/A"
+        tr = data["range"]["TR"][i] if i < len(data["range"]["TR"]) else "N/A"
+        tt = data["range"]["TT"][i] if i < len(data["range"]["TT"]) else "N/A"
         
-        row = f"|    {i+1}    | {up}     |  {down}     | 'Rec.': '{tr}', 'Tra.': '{tt}', 'S': '{sinal}' |"
+        row = f"|    {i+1}    | {up:<7} | {down:<7} | Rec.: {tr}, Tra.: {tt}, S: {sinal} |"
         rows.append(row)
     
-    table = f"\nTabela de Resultados:\n{header}\n{title}\n{header}\n" + "\n".join(rows) + f"\n{header}"
+    table = f"\nTabela de Resultados:\n{separator}\n{title}\n{separator}\n" + "\n".join(rows) + f"\n{separator}"
     
-
-    with open("table.txt", "w", encoding= "utf-8") as f:
+    with open("table.txt", "w", encoding="utf-8") as f:
         f.write(table)
-
+    
     return table
 
-
 def main():
-
-    # files = {
-    #     "down": ["down-0.txt", "down-1.txt", "down-2.txt"],
-    #     "up": ["up-0.txt", "up-1.txt", "up-2.txt"],
-    #     "netsh": ["netsh-0.txt", "netsh-1.txt", "netsh-2.txt"]
-    # }
-
     run = config["run"]
 
     c = 1
@@ -247,7 +222,6 @@ def main():
     print(tabela)
     print("Tabela de resultados salva em 'table.txt'.")
 
-
 c = {
     "ip":None,
     "host":None,
@@ -256,42 +230,28 @@ c = {
 }
 
 def read(opetion=None, number=3):
-
-    # files = {
-    #     "down": ["down-1.txt","down-2.txt","down-3.txt"],
-    #     "up": ["up-1.txt","up-2.txt","up-3.txt"],
-    #     "netsh": ["netsh-1.txt","netsh-2.txt","netsh-3.txt"]
-    # }
-
     ope = opetion.upper()
 
     if ope is None:
         print("Escolha uma opção\n Down\n Up\n Netsh")
 
     if ope == "DOWN":
-
         for i in range(0,3):
-
             with open(files["down"][i], "r", encoding="utf-8") as f:
                 result = f.read()
                 print(result)
     
     if ope == "UP":
-
         for i in range(0,3):
-
             with open(files["up"][i], "r", encoding="utf-8") as f:
                 result = f.read()
                 print(result)
     
     if ope == "NETSH":
-
         for i in range(0,3):
-
             with open(files["netsh"][i], "r", encoding="utf-8") as f:
                 result = f.read()
                 print(result)
-
 
 def show_help():
     help_text = """
@@ -303,6 +263,7 @@ Opções disponíveis:
   RUN, -R                              Executa o script principal.
   LOG, -L   <file>                     Mostra todos os logs dos arquivos
   DELETE, -D                           Deleta todos os arquivos de log.
+  TABLE, -T                            Mostra a tabela de resultados.
 
 Exemplos:
   python main.py INFO
@@ -310,11 +271,11 @@ Exemplos:
   python main.py RUN
   python main.py LOG down
   python main.py DELETE
+  python main.py TABLE
 """
     print(help_text)
 
 def delete_files():
-
     for category, file_list in files.items():
         for file in file_list:
             if os.path.exists(file):
@@ -322,6 +283,7 @@ def delete_files():
                 print(f"Arquivo removido: {file}")
             else:
                 print(f"Arquivo não encontrado: {file}")
+
 
 def parse_args():
     if len(sys.argv) < 2:
@@ -339,7 +301,9 @@ def parse_args():
         "LOG": handle_log,
         "-L": handle_log,
         "-D": delete_files,
-        "DELETE": delete_files
+        "DELETE": delete_files,
+        "-T": show_table,
+        "TABLE": show_table
     }
 
     if par in comandos:
@@ -348,6 +312,11 @@ def parse_args():
         print("Erro: Comando desconhecido.")
         show_help()
         sys.exit(1)
+
+def show_table():
+    set_data()
+    tabela = format_table(data)
+    print(tabela)
 
 def handle_info():
     config = path_json()
@@ -383,5 +352,4 @@ def handle_log():
     else:
         print("Escolha uma opção válida:\nOpções: [down, up, netsh]")
 
-a = format_table(data)
-print(a)
+parse_args()

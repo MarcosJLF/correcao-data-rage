@@ -1,0 +1,11 @@
+Connecting to host 50.0.0.10, port 5201
+Reverse mode, remote host 50.0.0.10 is sending
+[  5] local 10.0.0.3 port 64553 connected to 50.0.0.10 port 5201
+[ ID] Interval           Transfer     Bandwidth
+[  5]   0.00-1.00   sec  43.6 MBytes   365 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth       Retr
+[  5]   0.00-1.00   sec  45.8 MBytes   384 Mbits/sec    3             sender
+[  5]   0.00-1.00   sec  43.8 MBytes   367 Mbits/sec                  receiver
+
+iperf Done.

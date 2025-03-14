@@ -1,0 +1,10 @@
+Connecting to host 50.0.0.10, port 5201
+[  5] local 10.0.0.3 port 64558 connected to 50.0.0.10 port 5201
+[ ID] Interval           Transfer     Bandwidth
+[  5]   0.00-1.00   sec  38.2 MBytes   320 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth
+[  5]   0.00-1.00   sec  38.2 MBytes   320 Mbits/sec                  sender
+[  5]   0.00-1.00   sec  38.2 MBytes   320 Mbits/sec                  receiver
+
+iperf Done.

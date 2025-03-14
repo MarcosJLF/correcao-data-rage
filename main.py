@@ -6,17 +6,21 @@ import sys
 import re
 
 par = "False"
+
 if len(sys.argv) > 1:
     par = sys.argv[1].upper()
 
 if par == "CLEAR":
     os.system("cls")
 
+def clear():
+    os.system("cls")
+
 config = {
     "ip": None,
     "host": None,
     "time":None,
-    "run": None
+    "run": 3
 }
 
 files = {
@@ -37,7 +41,7 @@ def path_json():
     config["ip"] = data.get("ip", "10.0.0.2")
     config["host"] = data.get("host", "50.0.0.10")
     config["time"] = int(data.get("time", 30))
-    config["run"] = int(data.get("run", 3))
+    # config["run"] = int(data.get("run", 3))
 
     return config
 
@@ -167,8 +171,8 @@ def set_data():
 
 def format_table(data):
     #print(data)
-    header = "+---------+---------+---------+-------------------------------+"
-    title = "| Rodadas |   Up    |  Down   |       Dados                   |"
+    header = "+---------+---------+---------+--------------------------------+"
+    title = "| Rodadas |   Up    |  Down   |       Dados                    |"
     separator = header
     
     num_rodadas = len(data["up"]) if len(data["up"]) > len(data["down"]) else len(data["down"])
@@ -181,7 +185,7 @@ def format_table(data):
         tr = data["range"]["TR"][i] if i < len(data["range"]["TR"]) else "N/A"
         tt = data["range"]["TT"][i] if i < len(data["range"]["TT"]) else "N/A"
         
-        row = f"|    {i+1}    | {up:<7} | {down:<7} | Rec.: {tr}, Tra.: {tt}, S: {sinal} |"
+        row = f"|    {i+1}    | {up:<7} | {down:<7} | Rec.: {tr}, Tra.: {tt}, S: {sinal}% |"
         rows.append(row)
     
     table = f"\nTabela de Resultados:\n{separator}\n{title}\n{separator}\n" + "\n".join(rows) + f"\n{separator}"
@@ -201,16 +205,16 @@ def main():
 
         print("Executando teste de download...")
         down_output = run_script(command["down"] + f" --logfile down-{i}.txt")
-        time.sleep(config["time"] + 2)  
+        #time.sleep(config["time"] + 2)  
 
         print("Executando teste de upload...")
         up_output = run_script(command["up"] + f" --logfile up-{i}.txt")
-        time.sleep(config["time"] + 2)  
+        #time.sleep(config["time"] + 2)  
 
         print("Executando análise de rede...")
         netsh_output = run_script(command["netsh"])
         save_to_file(filess["netsh"][i], netsh_output)
-        time.sleep(2)  
+        #time.sleep(2)  
 
         c = 0
 
@@ -234,24 +238,30 @@ def read(opetion=None, number=3):
         print("Escolha uma opção\n Down\n Up\n Netsh")
 
     if ope == "DOWN":
+        clear()
         for i in range(0,3):
             with open(files["down"][i], "r", encoding="utf-8") as f:
                 result = f.read()
                 print(result)
     
     if ope == "UP":
+        clear()
+
         for i in range(0,3):
             with open(files["up"][i], "r", encoding="utf-8") as f:
                 result = f.read()
                 print(result)
     
     if ope == "NETSH":
+        clear()
+
         for i in range(0,3):
             with open(files["netsh"][i], "r", encoding="utf-8") as f:
                 result = f.read()
                 print(result)
 
 def show_help():
+    clear()
     help_text = """
 Uso: python main.py [OPÇÃO] [ARGUMENTOS]
 

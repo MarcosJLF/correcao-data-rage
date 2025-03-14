@@ -1,0 +1,25 @@
+
+H  1 interface no sistema: 
+
+    Nome                   : Wi-Fi
+    Descri‡Æo            : Intel(R) Wi-Fi 6 AX201 160MHz
+    GUID                   : 2ac8aa8a-f748-417c-a202-31aed51904d0
+    Endere‡o f¡sico       : 00:d7:6d:52:9e:91
+    Tipo de interface         : Prim rio
+    Estado                  : Conectado
+    SSID                   : marcosFrango_5g
+    BSSID                  : dc:4e:f4:44:c1:63
+    Tipo de rede           : Infraestrutura
+    Tipo de r dio             : 802.11ax
+    Autentica‡Æo         : WPA2-Personal
+    Criptografia                 : CCMP
+    Modo de conexÆo        : Perfil
+    Faixa                   : 5 GHz  
+    Canal                : 36
+    Taxa de recep‡Æo (Mbps)    : 1081
+    Taxa de transmissÆo (Mbps)   : 1201
+    Sinal                 : 92% 
+    Perfil                : marcosFrango_5g 
+
+    Status da rede hospedada: NÆo dispon¡vel
+
